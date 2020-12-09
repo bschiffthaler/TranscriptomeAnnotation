@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>Transcriptome Annotation</title>
+		<link rel="stylesheet" href="reveal.js/dist/reset.css">
+		<link rel="stylesheet" href="reveal.js/dist/reveal.css">
+		<link rel="stylesheet" href="reveal.js/dist/theme/night.css" id="theme">
+		<link rel="stylesheet" href="reveal.js/dist/user.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" id="highlight-theme">
+		<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/highcharts-more.js"></script>
+		<script src="https://code.highcharts.com/modules/sankey.js"></script>
+		<script src="https://code.highcharts.com/modules/heatmap.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+		<script src="https://code.highcharts.com/gantt/modules/networkgraph.js"></script>
+		<script type="text/javascript" src="js/high-contrast-dark.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/monokai-sublime.min.css">
+		<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+		</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h2>Transcriptome Annotation</h2>
+					<p>Bastian Schiffthaler, Nicolas Delhomme</p>
+				</section>
+				<section>
+					<h4>Overview</h4>
+					<ul>
+						<li>Relating Sequence to Function</li>
+						<li>Which tools to use</li>
+					</ul>
+				</section>
+				<section>
+					<section>
+						<h4>Relating Sequence to Function</h4>
+						<pre><code class="plaintext">
+>NODE_2283_length_573_cov_2.036680_g2196_i0
+AATGGCTTCAGCAGACGTAGGTGCAATCAGGTTCTCTCATTCTGCGCCTCTGACTCCTTC
+AAGGTCTCATTCGCCTCTGGGCTTTATAAGAACAGGCAGCAGGACCTCCAGGAGAACATG
+TGCAATATGTCTTGATGCAATGAAACCAGGCCATGGTCATGCCTTATTTACTGCAGAGTG
+TTCCCACACTTTCCACTTTGCTTGCATTGCTTCCAATGTGAAGCATGGAAATAGGGTATG
+TCCAGTTTGTCGAGCCAAGTGGAAAGAAGTTCCCTTACAAGGGCCTCTTTCAGAACCACT
+GCGTTGCAGAGCACGAATAAGTCCCTTGGATTGGCCACAACAGCAAGATGGCTGGACAAC
+GATTTTACCCCGTTTGCCACCTTCTCGTCCCCCACATCCTGAAGCTGCAAGACGTGTTAC
+AGAGCCTTCTGTTTTTGCTGATGATGAGCCATTGGAGCATCGGTCAAGTGGAGAAAACAG
+GTCAGGGGAAGAAAATGGAAATGAACCTACTTTGGTTGAAGTTGAGATAGCAGCAGGAAA
+TTCACAGGCTACAGTTTCGAGAGGAGAATTGGC
+						</code></pre>
+						<p class="fragment">What gene is this?</p>
+						<p class="fragment">How would you find out?</p>
+					</section>
+					<section>
+						<div class="fragment">
+							<p>Sequence Homology</p>
+							<p>Search database for similar sequence. BLAST/DIAMOND</p>
+						</div>
+						<div class="fragment">
+							<p>Sequence Composition</p>
+							<p>Find parts of your sequence with "known" functions</p>
+						</div>
+					</section>
+					<section>
+						<p>Annotation usually works in protein space, so let's find ORFs and translate</p>
+						<ul>
+							<li class="fragment"><a href="https://www.ncbi.nlm.nih.gov/orffinder/">ORFFinder</a>: Find all ORfs</li>
+							<li class="fragment"><a href="https://transdecoder.github.io/">TransDecoder</a>: Find likely coding regions</li>
+						</ul>
+						<pre class="fragment"><code class="plaintext">
+>lcl|ORF2
+MASADVGAIRFSHSAPLTPSRSHSPLGFIRTGSRTSRRTCAICLDAMKPG
+HGHALFTAECSHTFHFACIASNVKHGNRVCPVCRAKWKEVPLQGPLSEPL
+RCRARISPLDWPQQQDGWTTILPRLPPSRPPHPEAARRVTEPSVFADDEP
+LEHRSSGENRSGEENGNEPTLVEVEIAAGNSQATVSRGEL
+						</code></pre>
+						<p class="fragment">Did we find one? Cool! Let's search DBs for it</p>
+					</section>
+					<section>
+						<p>Popular DBs:</p>
+						<ul>
+							<li class="fragment"><a href="https://pfam.xfam.org/">PFAM</a></li>
+							<li class="fragment"><a href="http://www.pantherdb.org/">PANTHER</a></li>
+							<li class="fragment"><a href="http://gene3d.biochem.ucl.ac.uk/Gene3D/">Gene3D</a></li>
+							<li class="fragment">...</li>
+							<li class="fragment"><a href="https://www.ebi.ac.uk/interpro/result/InterProScan/">InterPRO!</a></li>
+						</ul>
+					</section>
+					<section data-background="white">
+						<p>What else?</p>
+						<ul>
+							<li class="fragment"><a href="http://www.cbs.dtu.dk/services/SignalP/">SignalP</a> detects secreted proteins</li>
+							<li class="fragment"><a href="http://www.cbs.dtu.dk/services/TMHMM/">TMHMM</a> detects transmembrane proteins</li>
+						</ul>
+						<img class="fragment" data-src="https://upload.wikimedia.org/wikipedia/commons/d/db/Polytopic_membrane_protein.png">
+						<p><a class="fragment" href="http://www.cbs.dtu.dk/cgi-bin/webface2.fcgi?jobid=5DCCB2AD00000884A95ED9F3&wait=20">SignalP example</a></p>
+					</section>
+					<section data-background="white">
+						<p>TMHMM</p>
+						<img data-src="img/tm.png"></img>
+					</section>
+					<section data-background="white">
+						<p>SignalP</p>
+						<img class="stretch" data-src="img/sp.png"></img>
+					</section>
+				</section>
+				<section>
+					<p>High throughput versions of this?</p>
+					<ul>
+						<li class="fragment"><a href="https://www.ebi.ac.uk/interpro/about/interproscan/">InterProScan</a></li>
+						<li class="fragment"><a href="https://github.com/eggnogdb/eggnog-mapper/wiki">EggNog</a></li>
+						<li class="fragment"><a href="https://www.blast2go.com/">Blast2GO (omicsbox)</a></li>
+					</ul>
+				</section>
+				<section>
+					<p>EggNog example:</p>
+					<pre><code class="bash">#!/usr/bin/env bash
+
+mkdir ~/annotation
+
+head -n 30 ~/raw_data/trinity_illumina_only/Trinity.fasta > \
+  ~/annotation/subset.fasta
+
+emapper.py \
+  --cpu 4 \
+  -i ~/annotation/subset.fasta \
+  --translate \
+  -m diamond \
+  -o ~/annotation/eggnog |& tee ~/annotation/eggnog.log
+					</code></pre>
+				</section>
+			</div>
+		</div>
+		<script>hljs.initHighlightingOnLoad();</script>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				
+				Reveal.addEventListener( 'ready', function( event ) {
+					Reveal.addEventListener( 'slidechanged', function( event ) {
+						console.log(event);
+						if (event.indexh === 7 && event.indexv === 3){
+							window.dispatchEvent(new Event('resize'));
+						}
+					});
+				});
+			});
+		</script>
+		<script src="reveal.js/dist/reveal.js"></script>
+		<script src="reveal.js/plugin/notes/notes.js"></script>
+		<script src="reveal.js/plugin/markdown/markdown.js"></script>
+		<script src="reveal.js/plugin/highlight/highlight.js"></script>
+		<script src="reveal.js/plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				width: 1280,
+				height: 720,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath ]
+			});
+		</script>
+	</body>
+</html>

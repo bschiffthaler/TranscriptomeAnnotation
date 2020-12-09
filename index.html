@@ -114,17 +114,26 @@ LEHRSSGENRSGEENGNEPTLVEVEIAAGNSQATVSRGEL
 					<p>High throughput versions of this?</p>
 					<ul>
 						<li class="fragment"><a href="https://www.ebi.ac.uk/interpro/about/interproscan/">InterProScan</a></li>
-						<li class="fragment"><a href="https://github.com/eggnogdb/eggnog-mapper/wiki">EggNog</a></li>
+						<li class="fragment"><a href="https://github.com/eggnogdb/eggnog-mapper/wiki">eggNOG</a></li>
 						<li class="fragment"><a href="https://www.blast2go.com/">Blast2GO (omicsbox)</a></li>
 					</ul>
 				</section>
+				<section data-background="white">
+					<p>eggNOG</p>
+					<div class="r-stack">
+						<img class="fragment r-frame" width="50%" data-src="/img/EA.png">
+						<img class="fragment r-frame" width="50%" data-src="/img/EB.png">
+						<img class="fragment r-frame" width="50%" data-src="/img/EC.png">
+						<img class="fragment r-frame" width="50%" data-src="/img/ED.png">
+					</div>
+				</section>
 				<section>
-					<p>EggNog example:</p>
+					<p>eggNOG example:</p>
 					<pre><code class="bash">#!/usr/bin/env bash
 
 mkdir ~/annotation
 
-head -n 30 ~/raw_data/trinity_illumina_only/Trinity.fasta > \
+head -n 30 ~/raw_data/trinity_illumina_only/Trinity.fasta >
   ~/annotation/subset.fasta
 
 emapper.py \

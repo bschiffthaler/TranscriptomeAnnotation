@@ -136,7 +136,7 @@ mkdir ~/annotation
 head -n 30 ~/raw_data/trinity_illumina_only/Trinity.fasta > \
   ~/annotation/subset.fasta
 
-emapper.py \
+/usr/bin/python3 $(which emapper.py) \
   --cpu 4 \
   -i ~/annotation/subset.fasta \
   --translate \
